@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Aplikasi Timbang Panen Padi </title>
+    <link rel="stylesheet" href="style.css">
+    <script src="https://unpkg.com/jspdf@latest/dist/jspdf.umd.min.js"></script>
+    <script src="https://unpkg.com/jspdf-autotable@latest/dist/jspdf.plugin.autotable.js"></script>
+    <script src="https://cdn.sheetjs.com/xlsx-0.20.2/package/dist/xlsx.full.min.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>🌾 Aplikasi Timbang Panen Padi PD.Jadi Makmur (Proyek YB)</h1>
+        <div class="dashboard">
+            <div class="stat-box"><h2>Total Berat Hari Ini</h2><p id="total-berat-hari-ini">0 kg</p></div>
+            <div class="stat-box"><h2>Total Data Masuk</h2><p id="jumlah-data">0</p></div>
+        </div>
+        <div class="tahap-container">
+            <h2>Tahap 1: Timbang Gabah/Karung</h2>
+            <div class="kalkulator-grid">
+                <div class="kalkulator-input">
+                    <form id="form-kalkulator">
+                        <label for="berat-karung">Masukkan Berat 1 Karung (kg)</label>
+                        <input type="number" id="berat-karung" step="0.01" placeholder="Contoh: 50.5" required>
+                        <button type="submit">Tambah ke Daftar</button>
+                    </form>
+                </div>
+                <div class="kalkulator-hasil">
+                    <div class="hasil-summary">
+                        <div><p>Jumlah Karung:</p><span id="jumlah-karung-sementara">0</span></div>
+                        <div><p>Total Berat Sementara:</p><span id="total-berat-sementara">0.00 kg</span></div>
+                    </div>
+                    <h4>Daftar Timbangan:</h4>
+                    <ul id="daftar-timbangan"><li>Belum ada data</li></ul>
+                    <button id="btn-reset-kalkulator" class="btn-reset">Reset Timbangan Ini</button>
+                </div>
+            </div>
+        </div>
+        <div class="tahap-container">
+            <h2>Tahap 2: Simpan Hasil Total Panen</h2>
+            <p class="instruksi">Lengkapi data di bawah ini untuk menyimpan hasil timbangan dari Tahap 1.</p>
+            <form id="form-final">
+                <div class="form-group"><label for="tanggal">Tanggal</label><input type="date" id="tanggal" required></div>
+                <div class="form-group"><label for="petani">Nama Petani / Kelompok</label><input type="text" id="petani" placeholder="Contoh: Kelompok Tani Maju" required></div>
+                <div class="form-group"><label for="telepon">Nomor Telepon (Opsional)</label><input type="tel" id="telepon" placeholder="Contoh: 08123456789"></div>
+                <div class="form-group"><label for="jenisPadi">Jenis Padi</label><input type="text" id="jenisPadi" placeholder="Contoh: IR64" required></div>
+                <div class="form-group"><label for="jumlahKarungFinal">Total Jumlah Karung</label><input type="number" id="jumlahKarungFinal" readonly class="readonly-input"></div>
+                <div class="form-group"><label for="beratFinal">Total Berat (kg)</label><input type="number" id="beratFinal" step="0.01" readonly class="readonly-input"></div>
+                <div class="form-group full-width"><label for="catatan">Catatan</label><textarea id="catatan" rows="3" placeholder="Contoh: Gabah kering panen"></textarea></div>
+                <button type="submit" class="btn-submit">✅ Simpan & Unduh Nota Excel</button>
+            </form>
+        </div>
+        <div class="tabel-container">
+            <h2>📄 Riwayat Data Panen Tersimpan</h2>
+            <div class="laporan-khusus-container">
+                <h3>Laporan Khusus (Excel)</h3>
+                <div class="laporan-grid">
+                    <div class="laporan-box">
+                        <label for="pilih-petani">1. Laporan per Petani</label>
+                        <select id="pilih-petani"><option value="">-- Pilih Nama Petani --</option></select>
+                        <button id="btn-export-petani" class="btn-export excel">Unduh Laporan Petani</button>
+                    </div>
+                    <div class="laporan-box">
+                        <label for="pilih-tanggal">2. Laporan Harian</label>
+                        <input type="date" id="pilih-tanggal">
+                        <button id="btn-export-harian" class="btn-export excel">Unduh Laporan Harian</button>
+                    </div>
+                </div>
+            </div>
+            <div class="toolbar">
+                <div class="filter-container"><label for="filter-tanggal">Saring Tabel:</label><input type="date" id="filter-tanggal"><button id="btn-reset-filter">Tampilkan Semua</button></div>
+                <div class="export-buttons"><span>Laporan Keseluruhan:</span><button id="btn-export-excel-all" class="btn-export excel">Excel</button><button id="btn-export-pdf-all" class="btn-export pdf">PDF</button></div>
+            </div>
+            <table id="tabel-panen">
+                <thead><tr><th>Tanggal</th><th>Petani</th><th>No. Telepon</th><th>Jenis Padi</th><th>Jml Karung</th><th>Total Berat (kg)</th><th>Catatan</th><th>Aksi</th></tr></thead>
+                <tbody id="data-tabel-body"></tbody>
+            </table>
+
+            <div class="reset-semua-container">
+                <button id="btn-reset-semua-data" class="btn-reset-semua">⚠️ Reset Semua Data Riwayat</button>
+                <p class="warning-text">Tindakan ini akan menghapus semua data panen secara permanen dan tidak bisa dibatalkan.</p>
+            </div>
+
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
