@@ -3,7 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Aplikasi Timbang Panen Padi </title>
+    <title>Aplikasi Timbang Panen Padi</title>
+    
+    <link rel="manifest" href="manifest.json">
+    <meta name="theme-color" content="#2c5e2d"/>
+
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="Timbang Padi">
+    <link rel="apple-touch-icon" href="icon-192.png">
+
     <link rel="stylesheet" href="style.css">
     <script src="https://unpkg.com/jspdf@latest/dist/jspdf.umd.min.js"></script>
     <script src="https://unpkg.com/jspdf-autotable@latest/dist/jspdf.plugin.autotable.js"></script>
@@ -11,11 +20,13 @@
 </head>
 <body>
     <div class="container">
-        <h1>🌾 Aplikasi Timbang Panen Padi PD.Jadi Makmur (Proyek YB)</h1>
+        <h1>🌾 Aplikasi Timbang Panen Padi PD jadi Makmur (proyek YB)</h1>
+        
         <div class="dashboard">
             <div class="stat-box"><h2>Total Berat Hari Ini</h2><p id="total-berat-hari-ini">0 kg</p></div>
             <div class="stat-box"><h2>Total Data Masuk</h2><p id="jumlah-data">0</p></div>
         </div>
+
         <div class="tahap-container">
             <h2>Tahap 1: Timbang Gabah/Karung</h2>
             <div class="kalkulator-grid">
@@ -37,6 +48,7 @@
                 </div>
             </div>
         </div>
+
         <div class="tahap-container">
             <h2>Tahap 2: Simpan Hasil Total Panen</h2>
             <p class="instruksi">Lengkapi data di bawah ini untuk menyimpan hasil timbangan dari Tahap 1.</p>
@@ -51,6 +63,7 @@
                 <button type="submit" class="btn-submit">✅ Simpan & Unduh Nota Excel</button>
             </form>
         </div>
+
         <div class="tabel-container">
             <h2>📄 Riwayat Data Panen Tersimpan</h2>
             <div class="laporan-khusus-container">
@@ -81,9 +94,16 @@
                 <button id="btn-reset-semua-data" class="btn-reset-semua">⚠️ Reset Semua Data Riwayat</button>
                 <p class="warning-text">Tindakan ini akan menghapus semua data panen secara permanen dan tidak bisa dibatalkan.</p>
             </div>
-
         </div>
     </div>
+    
     <script src="script.js"></script>
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('./sw.js').then(reg => console.log('SW terdaftar')).catch(err => console.log('SW gagal: ', err));
+            });
+        }
+    </script>
 </body>
 </html>
